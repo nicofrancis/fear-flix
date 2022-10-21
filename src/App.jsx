@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Movies, Navbar } from "./components";
 
 function App() {
   const [movies, setMovies] = useState(null);
@@ -19,7 +20,10 @@ function App() {
       .request(options)
       .then(function (response) {
         console.log(response.data);
-        setMovies(response.data);
+        const arrayOfData = Object.keys(response.properties.data).map(
+          (key) => response.properties.data[key]
+        );
+        setMovies(arrayOfData);
       })
       .catch(function (error) {
         console.error(error);
@@ -34,7 +38,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="text-4xl font-bold underline">Hello world!</h1>
+      <Navbar />
+      <h1 className="text-4xl font-bold">Fear.flix</h1>
+      <Movies movies={movies} />
     </div>
   );
 }
